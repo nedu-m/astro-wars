@@ -9,8 +9,7 @@
       "@pages/*": ["src/pages/*"],
       "@public/*": ["src/public/*"],
       "@styles/*": ["src/styles/*"],
-      "@assets/*": ["src/assets/*"],
-      "@context/*": ["src/context/*"]
+      "@assets/*": ["src/assets/*"]
     }
   }
 }

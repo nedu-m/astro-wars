@@ -21,7 +21,6 @@ interface Movie {
 
 function Movies() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  console.log(movies);
 
   useEffect(() => {
     fetch("https://swapi.dev/api/films/")
