@@ -22,6 +22,8 @@ function Movies() {
   const [movies, setMovies] = useState<Movie[]>([]);
   //set the state of the loading
   const [loading, setLoading] = useState(true);
+  //set the state of the selected movie and set the default to "Select a movie"
+  const [selectedMovie, setSelectedMovie] = useState("Select a movie");
 
   //fetch the movies from the API
   useEffect(() => {
@@ -33,14 +35,15 @@ function Movies() {
       });
   }, []);
 
-  // Movie names in the dropdown to be sorted by release date from earliest to newest,
-  //  with the default option being "Select a movie" and movie year in brackets
+  //sort the movies by episode id
   const sortedMovies = movies.sort((a, b) => {
     return a.release_date.localeCompare(b.release_date);
   });
 
-  //set the state of the selected movie and set the default to "Select a movie"
-  const [selectedMovie, setSelectedMovie] = useState("Select a movie");
+  //handle the change of the select element
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedMovie(e.target.value);
+  };
 
   //get the opening crawl for the selected movie
   const selectedMovieOpeningCrawl = movies.find(
@@ -60,9 +63,11 @@ function Movies() {
   const renderSelectedMovie = () => {
     if (selectedMovie !== "Select a movie") {
       return (
-        <div className="text-white text-center mt-8">
+        <div className="text-yellow-300 text-center mt-8">
           <h2 className="text-2xl font-bold">{selectedMovie}</h2>
-          <p className="mt-4">{selectedMovieOpeningCrawl}</p>
+          <p className="hover:animate-bounce w-full">
+            {selectedMovieOpeningCrawl}
+          </p>
         </div>
       );
     }
@@ -71,22 +76,28 @@ function Movies() {
   //render the loading message
   const renderLoading = () => {
     if (loading) {
-      return <p className="text-white text-center mt-8">Loading...</p>;
+      return (
+        <p className="text-yellow-300 text-center mt-8 animate-ping">
+          Loading...
+        </p>
+      );
     }
   };
 
   return (
-    <main className="w-1/3 md:w-1/4 mx-auto mt-8">
-      <select
-        className="w-full bg-black text-white py-2 px-4 rounded"
-        onChange={(e) => setSelectedMovie(e.target.value)}
-      >
-        <option value="Select a movie">Select a movie</option>
-        {renderMovies}
-      </select>
-      {renderSelectedMovie()}
-      {renderLoading()}
-    </main>
+    <>
+      <main className="w-full md:w-1/4 mt-8 px-6 md:mx-auto">
+        <select
+          className="w-full text-yellow-300 bg-gray-800 border-2 border-yellow-300 rounded-md p-2"
+          onChange={handleChange}
+        >
+          <option value="Select a movie">Select a movie</option>
+          {renderMovies}
+        </select>
+        {renderSelectedMovie()}
+        {renderLoading()}
+      </main>
+    </>
   );
 }
 
