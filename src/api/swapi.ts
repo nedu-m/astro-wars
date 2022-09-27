@@ -5,9 +5,9 @@ export const getFilms = async () => {
   return data.results;
 };
 
-//fetch people from swapi
-export const getPeople = async () => {
-  const response = await fetch("https://swapi.dev/api/people/");
+//fetch function to get people from swapi
+export const getPeople = async (id: string[]) => {
+  const response = await fetch(`https://swapi.dev/api/people/${id}/`);
   const data = await response.json();
-  return data.results;
+  return data;
 };
