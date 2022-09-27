@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Movie } from "../types/swapi-type";
-import { getFilms } from "src/api/swapi";
+import { getFilms, getPeople } from "../api/swapi";
 
 function Movies() {
   //set the state of the movies
