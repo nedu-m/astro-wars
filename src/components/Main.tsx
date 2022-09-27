@@ -1,6 +1,5 @@
 // import { useState } from "react";
 import StarLogo from "@assets/star-logo.png";
-
 function Main() {
   return (
     <>

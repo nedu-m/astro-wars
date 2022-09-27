@@ -1,21 +1,6 @@
 import { useState, useEffect } from "react";
-
-interface Movie {
-  title: string;
-  episode_id: number;
-  opening_crawl: string;
-  director: string;
-  producer: string;
-  release_date: string;
-  characters: string[];
-  planets: string[];
-  starships: string[];
-  vehicles: string[];
-  species: string[];
-  created: string;
-  edited: string;
-  url: string;
-}
+import type { Movie } from "../types/swapi-type";
+import { getFilms } from "src/api/swapi";
 
 function Movies() {
   //set the state of the movies
@@ -27,12 +12,10 @@ function Movies() {
 
   //fetch the movies from the API
   useEffect(() => {
-    fetch("https://swapi.dev/api/films/")
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.results);
-        setLoading(false);
-      });
+    getFilms().then((movies) => {
+      setMovies(movies);
+      setLoading(false);
+    });
   }, []);
 
   //sort the movies by episode id
