@@ -65,9 +65,7 @@ function Movies() {
       return (
         <div className="text-yellow-300 text-center mt-8">
           <h2 className="text-2xl font-bold">{selectedMovie}</h2>
-          <p className="hover:animate-bounce w-full">
-            {selectedMovieOpeningCrawl}
-          </p>
+          <p className="hover:animate-pulse">{selectedMovieOpeningCrawl}</p>
         </div>
       );
     }
