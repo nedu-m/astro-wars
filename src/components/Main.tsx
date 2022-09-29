@@ -27,9 +27,9 @@ function Main() {
   });
 
   //handle the change of the select element
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedMovie(e.target.value);
-  };
+  }
 
   //get the characterUrl from the selected movie and convert it to an array of objects
   const characterUrlArray = movies
