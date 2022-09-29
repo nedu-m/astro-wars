@@ -46,17 +46,31 @@ function CharacterInfo({
     return characters.map((character) => {
       return (
         <div key={character.name}>
-          <h3>{character.name}</h3>
-          <p>Height: {character.height}</p>
-          <p>Mass: {character.mass}</p>
-          <p>Hair color: {character.hair_color}</p>
+          <table className="table-auto">
+            <thead>
+              <tr className="px-4">
+                <th>Name</th>
+                <th>Height</th>
+                <th>Mass</th>
+                <th>Gender</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{character.name}</td>
+                <td>{character.height}</td>
+                <td>{character.mass}</td>
+                <td>{character.gender}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       );
     });
   }, [characters, loading, error]);
 
   return (
-    <div className="text-yellow-300 text-center md:mt-8 mt-6">
+    <div className="text-yellow-300 text-center w-full md:w-1/2 md:mx-auto px-5 mt-3">
       {renderCharacters}
     </div>
   );
