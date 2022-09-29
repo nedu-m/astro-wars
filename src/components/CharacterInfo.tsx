@@ -17,21 +17,23 @@ function CharacterInfo({
 
   //fetch all the characters for the charactersUrlArray
   useEffect(() => {
-    const promises = characterUrlArray.map((characterUrl) => {
-      return Promise.all(
-        characterUrl.map((character) => {
-          return fetch(character.url).then((res) => res.json());
-        })
-      );
-    });
-
-    Promise.all(promises).then((characters) => {
-      setCharacters(characters.flat());
-      setLoading(false);
-    });
+    const fetchCharacters = async () => {
+      try {
+        const characters = await Promise.all(
+          characterUrlArray.flat().map((character) => {
+            return fetch(character.url).then((res) => res.json());
+          })
+        );
+        setCharacters(characters);
+        setLoading(false);
+      } catch (error) {
+        setError(true);
+      }
+    };
+    fetchCharacters();
   }, [characterUrlArray]);
 
-  //render the characters
+  //use
   const renderCharacters = useMemo(() => {
     if (loading) {
       return <p className="text-yellow-300">Loading...</p>;
@@ -43,7 +45,7 @@ function CharacterInfo({
 
     return characters.map((character) => {
       return (
-        <div key={character.name} className="text-yellow-300">
+        <div key={character.name}>
           <h3>{character.name}</h3>
           <p>Height: {character.height}</p>
           <p>Mass: {character.mass}</p>
@@ -53,7 +55,11 @@ function CharacterInfo({
     });
   }, [characters, loading, error]);
 
-  return <div className="text-yellow-300">{renderCharacters}</div>;
+  return (
+    <div className="text-yellow-300 text-center md:mt-8 mt-6">
+      {renderCharacters}
+    </div>
+  );
 }
 
 export default CharacterInfo;
