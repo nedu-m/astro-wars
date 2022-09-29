@@ -31,15 +31,19 @@ function Main() {
     setSelectedMovie(e.target.value);
   };
 
+  //get the characterUrl from the selected movie and convert it to an array of objects
+  const characterUrlArray = movies
+    .filter((movie) => movie.title === selectedMovie)
+    .map((movie) => {
+      return movie.characters.map((url) => {
+        return { url };
+      });
+    });
+
   //get the opening crawl for the selected movie
   const selectedMovieOpeningCrawl = movies.find(
     (movie) => movie.title === selectedMovie
   )?.opening_crawl;
-
-  //get the characters for the selected movie
-  const selectedMovieCharacters = movies.find(
-    (movie) => movie.title === selectedMovie
-  )?.characters;
 
   //render the movies in the dropdown
   const renderMovies = sortedMovies.map((movie) => {
@@ -91,7 +95,7 @@ function Main() {
         {renderLoading()}
       </section>
       <MovieInfo renderSelectedMovie={renderSelectedMovie} />
-      <CharacterInfo selectedMovieCharacters={selectedMovieCharacters} />
+      <CharacterInfo characterUrlArray={characterUrlArray} />
     </>
   );
 }
