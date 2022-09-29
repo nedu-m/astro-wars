@@ -15,7 +15,7 @@ function CharacterInfo({
   //set error state
   const [error, setError] = useState(false);
 
-  //fetch all the characters for the charactersUrlArray
+  //fetch all the characters for the charactersUrlArray, store data in local storage to prevent unnecessary API calls
   useEffect(() => {
     const promises = characterUrlArray.map((characterUrl) => {
       return Promise.all(
@@ -25,13 +25,20 @@ function CharacterInfo({
       );
     });
 
-    Promise.all(promises).then((characters) => {
-      setCharacters(characters.flat());
-      setLoading(false);
-    });
+    Promise.all(promises)
+      .then((characters) => {
+        setCharacters(characters.flat());
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(true);
+      });
   }, [characterUrlArray]);
 
-  //render the characters
+  console.log(characters);
+
+  //use
   const renderCharacters = useMemo(() => {
     if (loading) {
       return <p className="text-yellow-300">Loading...</p>;
@@ -43,7 +50,7 @@ function CharacterInfo({
 
     return characters.map((character) => {
       return (
-        <div key={character.name} className="text-yellow-300">
+        <div key={character.name}>
           <h3>{character.name}</h3>
           <p>Height: {character.height}</p>
           <p>Mass: {character.mass}</p>
@@ -53,7 +60,11 @@ function CharacterInfo({
     });
   }, [characters, loading, error]);
 
-  return <div className="text-yellow-300">{renderCharacters}</div>;
+  return (
+    <div className="text-yellow-300 text-center md:mt-8 mt-6">
+      {renderCharacters}
+    </div>
+  );
 }
 
 export default CharacterInfo;
