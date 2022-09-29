@@ -15,28 +15,23 @@ function CharacterInfo({
   //set error state
   const [error, setError] = useState(false);
 
-  //fetch all the characters for the charactersUrlArray, store data in local storage to prevent unnecessary API calls
+  //fetch all the characters for the charactersUrlArray
   useEffect(() => {
-    const promises = characterUrlArray.map((characterUrl) => {
-      return Promise.all(
-        characterUrl.map((character) => {
-          return fetch(character.url).then((res) => res.json());
-        })
-      );
-    });
-
-    Promise.all(promises)
-      .then((characters) => {
-        setCharacters(characters.flat());
+    const fetchCharacters = async () => {
+      try {
+        const characters = await Promise.all(
+          characterUrlArray.flat().map((character) => {
+            return fetch(character.url).then((res) => res.json());
+          })
+        );
+        setCharacters(characters);
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
+      } catch (error) {
         setError(true);
-      });
+      }
+    };
+    fetchCharacters();
   }, [characterUrlArray]);
-
-  console.log(characters);
 
   //use
   const renderCharacters = useMemo(() => {
