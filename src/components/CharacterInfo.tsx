@@ -1,25 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import type { Character } from "src/types/Character";
 
-type CharacterInfoProps = {
-  selectedMovieCharacters: string[] | undefined;
-};
+type characterUrlArray = { url: string }[][];
 
-function CharacterInfo({ selectedMovieCharacters }: CharacterInfoProps) {
-  const [characters, setCharacters] = useState<string[]>([]);
+function CharacterInfo({
+  characterUrlArray,
+}: {
+  characterUrlArray: characterUrlArray;
+}) {
+  //set the state of the characters
+  const [characters, setCharacters] = useState<Character[]>([]);
+  //set the state of the loading
+  const [loading, setLoading] = useState(true);
+  //set error state
+  const [error, setError] = useState(false);
 
-  //get the last part of the selected movie characters url to use as the id
-  const characterIds = selectedMovieCharacters?.map((character) => {
-    const characterId = character.split("/people/").pop();
-    return characterId;
-  });
+  //fetch all the characters for the charactersUrlArray
+  useEffect(() => {
+    const promises = characterUrlArray.map((characterUrl) => {
+      return Promise.all(
+        characterUrl.map((character) => {
+          return fetch(character.url).then((res) => res.json());
+        })
+      );
+    });
 
-  //fetch the characters with their ids only once
+    Promise.all(promises).then((characters) => {
+      setCharacters(characters.flat());
+      setLoading(false);
+    });
+  }, [characterUrlArray]);
 
-  return (
-    <>
-      {/* <ul className="text-yellow-300 text-center">{renderCharacters}</ul> */}
-    </>
-  );
+  //render the characters
+  const renderCharacters = useMemo(() => {
+    if (loading) {
+      return <p className="text-yellow-300">Loading...</p>;
+    }
+
+    if (error) {
+      return <p className="text-yellow-300">Something went wrong...</p>;
+    }
+
+    return characters.map((character) => {
+      return (
+        <div key={character.name} className="text-yellow-300">
+          <h3>{character.name}</h3>
+          <p>Height: {character.height}</p>
+          <p>Mass: {character.mass}</p>
+          <p>Hair color: {character.hair_color}</p>
+        </div>
+      );
+    });
+  }, [characters, loading, error]);
+
+  return <div className="text-yellow-300">{renderCharacters}</div>;
 }
 
 export default CharacterInfo;
