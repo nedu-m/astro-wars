@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import type { Character } from "src/types/Character";
 
 type characterUrlArray = { url: string }[][];
@@ -33,45 +33,34 @@ function CharacterInfo({
     fetchCharacters();
   }, [characterUrlArray]);
 
-  //use
-  const renderCharacters = useMemo(() => {
-    if (loading) {
-      return <p className="text-yellow-300">Loading...</p>;
-    }
-
-    if (error) {
-      return <p className="text-yellow-300">Something went wrong...</p>;
-    }
-
-    return characters.map((character) => {
-      return (
-        <div key={character.name}>
-          <table className="table-auto">
-            <thead>
-              <tr className="px-4">
-                <th>Name</th>
-                <th>Height</th>
-                <th>Mass</th>
-                <th>Gender</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{character.name}</td>
-                <td>{character.height}</td>
-                <td>{character.mass}</td>
-                <td>{character.gender}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      );
-    });
-  }, [characters, loading, error]);
-
   return (
-    <div className="text-yellow-300 text-center w-full md:w-1/2 md:mx-auto px-5 mt-3">
-      {renderCharacters}
+    <div className="text-yellow-300 flex flex-col md:mx-auto md:my-8 md:px-16 mx-1">
+      {loading && <div>Loading...</div>}
+      <table className="table-fixed">
+        <thead>
+          <tr className="border-solid border-2 border-yellow-300 rounded-md">
+            <th className="px-2 py-2">Name</th>
+            <th className="px-2 py-2">Height</th>
+            <th className="px-2 py-2">Mass</th>
+            <th className="px-2 py-2">Gender</th>
+          </tr>
+        </thead>
+        <tbody>
+          {characters.map((character) => {
+            return (
+              <tr key={character.name}>
+                <td className="border px-2 py-2">{character.name}</td>
+                <td className="border px-2 py-2">{character.height}</td>
+                <td className="border px-2 py-2">{character.mass}</td>
+                <td className="border px-2 py-2">{character.gender}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      {error && (
+        <div className="text-center text-2xl mt-5">Something went wrong...</div>
+      )}
     </div>
   );
 }

@@ -86,6 +86,7 @@ function Main() {
       </header>
       <section className="w-full md:w-1/4 mt-8 px-6 md:mx-auto">
         <select
+          value={selectedMovie}
           className="w-full text-yellow-300 bg-gray-800 border-2 border-yellow-300 rounded-md p-2"
           onChange={handleChange}
         >
