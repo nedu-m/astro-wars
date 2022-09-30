@@ -40,8 +40,8 @@ function CharacterInfo({
         <thead>
           <tr className="border-solid border-2 border-yellow-300 rounded-md">
             <th className="px-2 py-2">Name</th>
-            <th className="px-2 py-2">Height</th>
-            <th className="px-2 py-2">Mass</th>
+            <th className="px-2 py-2">Height[cm]</th>
+            <th className="px-2 py-2">Mass[kg]</th>
             <th className="px-2 py-2">Gender</th>
           </tr>
         </thead>
