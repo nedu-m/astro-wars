@@ -59,7 +59,7 @@ function CharacterInfo({
         </tbody>
       </table>
       {error && (
-        <div className="text-center text-2xl mt-5">Something went wrong...</div>
+        <div className="text-center text-xl mt-5">Error fetching the character info, try again...</div>
       )}
     </div>
   );
